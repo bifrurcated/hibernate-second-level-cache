@@ -1,0 +1,69 @@
+spring:
+  application:
+    name: hibernate-second-level-cache
+  datasource:
+    url: jdbc:p6spy:h2:mem:testdb
+    username: sa
+    password: password
+    driverClassName: com.p6spy.engine.spy.P6SpyDriver
+  jpa:
+    #отключаем автоматический менеджмент сессии
+    #так как лучше чтобы мы сами контролировали процесс работы с сессией
+    open-in-view: false
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        query:
+          #Выбрасывать исключение при update в запросах hql или sql для immutable сущностей
+          immutable_entity_update_query_handling_mode: exception
+        show_sql: false #отключаем логи sql hibernate, так как используем p6spy
+        use_sql_comments: true
+        format_sql: true
+        generate_statistics: true
+        cache:
+          use_second_level_cache: true
+          use_query_cache: true
+          use_reference_entries: true
+          region:
+            factory_class: org.redisson.hibernate.RedissonRegionFactory
+            #factory_class: com.hazelcast.hibernate.HazelcastLocalCacheRegionFactory
+          redisson:
+            config: classpath:redisson.yaml
+            fallback: true #продолжить работу с базой данных если связь с Redis была потеряна
+            categories: #Название региона
+              eviction:
+                max_entries: 500
+              expiration:
+                time_to_live: 600000
+                max_idle_time: 1800000
+            locations:
+              eviction:
+                max_entries: 1000
+              expiration:
+                time_to_live: 600000
+                max_idle_time: 1800000
+            discount_segments:
+              eviction:
+                max_entries: 5000
+              expiration:
+                time_to_live: 600000
+                max_idle_time: 1800000
+            entity: #значения по умолчанию
+              eviction:
+                max_entries: 10000
+                expiration:
+                  time_to_live: 120000
+                  max_idle_time: 120000
+              default-query-results-region:
+                eviction:
+                  max_entries: 500
+                expiration:
+                  time_to_live: 43200000
+                  max_idle_time: 86400000
+              default-update-timestamps-region:
+                eviction:
+                  max_entries: 50
+                expiration:
+                  time_to_live: 86400000
+                  max_idle_time: 86400000

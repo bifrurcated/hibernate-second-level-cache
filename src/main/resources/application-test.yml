@@ -1,0 +1,34 @@
+spring:
+  application:
+    name: hibernate-second-level-cache
+  datasource:
+    url: jdbc:p6spy:h2:mem:testdb
+    username: sa
+    password: password
+    driverClassName: com.p6spy.engine.spy.P6SpyDriver
+  jpa:
+    #отключаем автоматический менеджмент сессии
+    #так как лучше чтобы мы сами контролировали процесс работы с сессией
+    open-in-view: false
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        query:
+          #Выбрасывать исключение при update в запросах hql или sql для immutable сущностей
+          immutable_entity_update_query_handling_mode: exception
+        show_sql: false #отключаем логи sql hibernate, так как используем p6spy
+        use_sql_comments: true
+        format_sql: true
+        generate_statistics: true
+        cache:
+          region:
+            factory_class: org.hibernate.cache.jcache.JCacheRegionFactory
+          use_second_level_cache: true
+          use_query_cache: true
+          use_reference_entries: true
+        javax:
+          cache:
+            provider: org.ehcache.jsr107.EhcacheCachingProvider
+            uri: classpath:jcache.xml
+
