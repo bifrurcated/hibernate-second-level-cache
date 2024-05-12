@@ -1,11 +1,9 @@
 package com.github.bifrurcated.hibernatesecondlevelcache.service;
 
-import com.github.bifrurcated.hibernatesecondlevelcache.entity.Category;
 import com.github.bifrurcated.hibernatesecondlevelcache.entity.Product;
 import com.github.bifrurcated.hibernatesecondlevelcache.exceptions.CategoryNotFoundException;
 import com.github.bifrurcated.hibernatesecondlevelcache.repository.CategoryRepository;
 import com.github.bifrurcated.hibernatesecondlevelcache.repository.ProductRepository;
-import com.github.bifrurcated.hibernatesecondlevelcache.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

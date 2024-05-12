@@ -58,8 +58,8 @@ public class ProductController {
     public List<ProductResponse> getProducts(@RequestParam("categoryId") Long categoryId) {
         var products = productService.findProductsByCategoryId(categoryId);
         return products.stream()
-           .map(product -> mapper.map(product, ProductResponse.class))
-           .toList();
+            .map(product -> mapper.map(product, ProductResponse.class))
+            .toList();
     }
 
     @DeleteMapping("/{id}")

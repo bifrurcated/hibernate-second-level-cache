@@ -2,7 +2,6 @@ package com.github.bifrurcated.hibernatesecondlevelcache.sqlformatter;
 
 
 import com.p6spy.engine.spy.appender.MessageFormattingStrategy;
-
 import org.hibernate.engine.jdbc.internal.BasicFormatterImpl;
 import org.hibernate.engine.jdbc.internal.Formatter;
 
